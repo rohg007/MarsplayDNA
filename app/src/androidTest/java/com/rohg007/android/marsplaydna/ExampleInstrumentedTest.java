@@ -1,12 +1,25 @@
 package com.rohg007.android.marsplaydna;
 
 import android.content.Context;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
+
+import org.hamcrest.CustomMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
 /**
@@ -16,6 +29,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -23,4 +37,5 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.rohg007.android.marsplaydna", appContext.getPackageName());
     }
+
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Title"
+                android:text="@string/title"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/publication_title"
                 android:layout_marginStart="16dp"
-                android:text="Journal:"
+                android:text="@string/journal"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:textStyle="bold"
                 android:fontFamily="@font/roboto"/>
@@ -50,7 +50,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Publish Date:"
+                android:text="@string/publish_date"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:textStyle="bold"
                 android:fontFamily="@font/roboto"/>
@@ -62,7 +62,7 @@
                 android:layout_below="@id/pub_date"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Authors:"
+                android:text="@string/authors"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:textStyle="bold"
                 android:fontFamily="@font/roboto"/>
@@ -126,7 +126,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Abstract"
+                android:text="@string/abstract_title"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 

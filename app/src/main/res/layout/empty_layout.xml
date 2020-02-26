@@ -8,24 +8,38 @@
     <ImageView
         android:id="@+id/beer_mug"
         android:src="@drawable/ic_beer_mug"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/empty_tv"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        app:layout_constraintVertical_bias="0.4"/>
 
     <TextView
         android:id="@+id/empty_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nothing to Show!"
+        android:text="@string/nothing_to_show"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/beer_mug"
         android:fontFamily="@font/varela_round"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/retry_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RETRY"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/empty_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/black"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

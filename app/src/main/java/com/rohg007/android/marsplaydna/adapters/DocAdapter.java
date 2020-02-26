@@ -22,7 +22,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocViewHolder> {
     private ArrayList<Doc> docArrayList;
     private Context context;
     private int lastPostion=-1;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     public DocAdapter(ArrayList<Doc> docArrayList, Context context, FragmentManager fragmentManager) {
         this.docArrayList = docArrayList;
@@ -65,20 +65,17 @@ public class DocAdapter extends RecyclerView.Adapter<DocViewHolder> {
     }
 
     private void handleAbstractViewClick(@NonNull DocViewHolder holder){
-        holder.abstractTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!(holder.abstractTextView.getLineCount()==1)) {
-                    holder.abstractTextView.setMaxLines((holder.abstractTextView.getMaxLines() == 2) ? 4 : 2);
-                    Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-                    animation.setDuration(2000);
-                    holder.abstractTextView.startAnimation(animation);
-                    holder.seeMoreTextView.startAnimation(animation);
-                    if (holder.seeMoreTextView.getVisibility() == View.GONE) {
-                        holder.seeMoreTextView.setVisibility(View.VISIBLE);
-                    } else
-                        holder.seeMoreTextView.setVisibility(View.GONE);
-                }
+        holder.abstractTextView.setOnClickListener(v -> {
+            if (!(holder.abstractTextView.getLineCount()==1)) {
+                holder.abstractTextView.setMaxLines((holder.abstractTextView.getMaxLines() == 2) ? 4 : 2);
+                Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+                animation.setDuration(2000);
+                holder.abstractTextView.startAnimation(animation);
+                holder.seeMoreTextView.startAnimation(animation);
+                if (holder.seeMoreTextView.getVisibility() == View.GONE) {
+                    holder.seeMoreTextView.setVisibility(View.VISIBLE);
+                } else
+                    holder.seeMoreTextView.setVisibility(View.GONE);
             }
         });
     }

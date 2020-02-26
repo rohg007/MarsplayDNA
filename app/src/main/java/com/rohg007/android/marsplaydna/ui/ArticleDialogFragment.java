@@ -24,20 +24,20 @@ public class ArticleDialogFragment extends DialogFragment {
     private TextView authorsTextView;
     private TextView abstractTextView;
 
-    static final String TAG = ArticleDialogFragment.class.getSimpleName();
+    private static final String TAG = ArticleDialogFragment.class.getSimpleName();
+
     private String mTitle;
     private String mDate;
     private String mJournal;
     private String mAuthors;
     private String mAbstractString;
 
-    public static ArticleDialogFragment display(FragmentManager fragmentManager, String title, String journal, String date, String authors, String abstractString){
+    public static void display(FragmentManager fragmentManager, String title, String journal, String date, String authors, String abstractString){
         ArticleDialogFragment articleDialogFragment = new ArticleDialogFragment(title, date, journal, authors, abstractString);
         articleDialogFragment.show(fragmentManager,TAG);
-        return articleDialogFragment;
     }
 
-    public ArticleDialogFragment(String mTitle, String mDate, String mJournal, String mAuthors, String mAbstractString) {
+     private ArticleDialogFragment(String mTitle, String mDate, String mJournal, String mAuthors, String mAbstractString) {
         this.mTitle = mTitle;
         this.mDate = mDate;
         this.mJournal = mJournal;
@@ -58,8 +58,10 @@ public class ArticleDialogFragment extends DialogFragment {
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-            dialog.getWindow().setWindowAnimations(R.style.AppTheme_Slide);
+            if(dialog.getWindow()!=null) {
+                dialog.getWindow().setLayout(width, height);
+                dialog.getWindow().setWindowAnimations(R.style.AppTheme_Slide);
+            }
         }
     }
 

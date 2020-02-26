@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">MarsplayDNA</string>
     <string name="see_more"><u>See More</u></string>
+    <string name="nothing_to_show">Nothing to Show!</string>
+    <string name="authors">Authors:</string>
+    <string name="abstract_title">Abstract:</string>
+    <string name="publish_date">Publish Date:</string>
+    <string name="journal">Journal:</string>
+    <string name="title">Title</string>
+    <string name="splash_content_desc">This is the app Logo</string>
 </resources>

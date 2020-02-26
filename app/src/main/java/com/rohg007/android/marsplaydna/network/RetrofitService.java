@@ -3,7 +3,7 @@ package com.rohg007.android.marsplaydna.network;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitService {
+class RetrofitService {
 
     private static String BASE_URL= "http://api.plos.org/";
 

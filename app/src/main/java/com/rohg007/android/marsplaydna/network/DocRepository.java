@@ -1,12 +1,6 @@
 package com.rohg007.android.marsplaydna.network;
 
-import android.widget.ProgressBar;
-
-import com.rohg007.android.marsplaydna.MainActivity;
 import com.rohg007.android.marsplaydna.models.ApiResponse;
-import com.rohg007.android.marsplaydna.models.DNAResponse;
-
-import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,7 +18,7 @@ public class DocRepository {
         return docRepository;
     }
 
-    public DocRepository(){
+    private DocRepository(){
         docAPI = RetrofitService.createService(DocAPI.class);
     }
 

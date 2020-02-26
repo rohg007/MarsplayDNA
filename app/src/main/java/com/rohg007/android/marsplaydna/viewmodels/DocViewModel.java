@@ -20,6 +20,10 @@ public class DocViewModel extends ViewModel {
         responseMutableLiveData = docRepository.getDocs();
     }
 
+    public void recall(){
+        responseMutableLiveData = docRepository.getDocs();
+    }
+
     public LiveData<ApiResponse> getDocRepository(){
         return responseMutableLiveData;
     }
