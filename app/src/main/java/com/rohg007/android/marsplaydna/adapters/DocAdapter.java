@@ -10,11 +10,13 @@ import android.view.animation.AnimationUtils;
 import com.rohg007.android.marsplaydna.R;
 import com.rohg007.android.marsplaydna.models.Doc;
 import com.rohg007.android.marsplaydna.ui.ArticleDialogFragment;
+import com.rohg007.android.marsplaydna.viewmodels.DocViewModel;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DocAdapter extends RecyclerView.Adapter<DocViewHolder> {
@@ -23,11 +25,13 @@ public class DocAdapter extends RecyclerView.Adapter<DocViewHolder> {
     private Context context;
     private int lastPostion=-1;
     private FragmentManager fragmentManager;
+    private DocViewModel viewModel;
 
-    public DocAdapter(ArrayList<Doc> docArrayList, Context context, FragmentManager fragmentManager) {
+    public DocAdapter(ArrayList<Doc> docArrayList, Context context, FragmentManager fragmentManager, DocViewModel viewModel) {
         this.docArrayList = docArrayList;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -50,12 +54,8 @@ public class DocAdapter extends RecyclerView.Adapter<DocViewHolder> {
 
         setAnimationToItem(holder.itemView, position);
         holder.seeMoreTextView.setOnClickListener(v -> {
-            ArticleDialogFragment.display(fragmentManager,
-                    docArrayList.get(position).getTitleDisplay(),
-                    docArrayList.get(position).getJournal(),
-                    docArrayList.get(position).getPublicationDate(),
-                    docArrayList.get(position).getAuthorDisplay(),
-                    docArrayList.get(position).getAbstract());
+            viewModel.selectDoc(docArrayList.get(position));
+            ArticleDialogFragment.display(fragmentManager);
         });
     }
 

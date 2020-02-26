@@ -10,11 +10,14 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.rohg007.android.marsplaydna.R;
+import com.rohg007.android.marsplaydna.models.Doc;
+import com.rohg007.android.marsplaydna.viewmodels.DocViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 
 public class ArticleDialogFragment extends DialogFragment {
     private Toolbar toolbar;
@@ -26,23 +29,15 @@ public class ArticleDialogFragment extends DialogFragment {
 
     private static final String TAG = ArticleDialogFragment.class.getSimpleName();
 
-    private String mTitle;
-    private String mDate;
-    private String mJournal;
-    private String mAuthors;
-    private String mAbstractString;
+    private Doc doc;
+    private DocViewModel viewModel;
 
-    public static void display(FragmentManager fragmentManager, String title, String journal, String date, String authors, String abstractString){
-        ArticleDialogFragment articleDialogFragment = new ArticleDialogFragment(title, date, journal, authors, abstractString);
+    public static void display(FragmentManager fragmentManager){
+        ArticleDialogFragment articleDialogFragment = new ArticleDialogFragment();
         articleDialogFragment.show(fragmentManager,TAG);
     }
 
-     private ArticleDialogFragment(String mTitle, String mDate, String mJournal, String mAuthors, String mAbstractString) {
-        this.mTitle = mTitle;
-        this.mDate = mDate;
-        this.mJournal = mJournal;
-        this.mAuthors = mAuthors;
-        this.mAbstractString = mAbstractString;
+    public ArticleDialogFragment() {
     }
 
     @Override
@@ -80,14 +75,28 @@ public class ArticleDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
         toolbar.setTitle("Publication Details");
-        titleTextView.setText(mTitle);
-        journalTextView.setText(mJournal);
-        dateTextView.setText(mDate);
-        authorsTextView.setText(mAuthors);
-        abstractTextView.setText(mAbstractString);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(DocViewModel.class);
+        viewModel.getSelectedArticle().observe(this, this::displayItems);
     }
+
+    public void displayItems(Doc doc){
+        if(doc!=null) {
+            titleTextView.setText(doc.getTitleDisplay());
+            journalTextView.setText(doc.getJournal());
+            dateTextView.setText(doc.getPublicationDate());
+            authorsTextView.setText(doc.getAuthorDisplay());
+            abstractTextView.setText(doc.getAbstract());
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
 }

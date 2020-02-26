@@ -1,11 +1,15 @@
 package com.rohg007.android.marsplaydna.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Doc {
+public class Doc implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -33,6 +37,50 @@ public class Doc {
     @SerializedName("score")
     @Expose
     private Double score;
+
+    protected Doc (Parcel in){
+        id= in.readString();
+        journal= in.readString();
+        eissn=in.readString();
+        publicationDate= in.readString();
+        articleType= in.readString();
+        authorDisplay= new ArrayList<>();
+        in.readList(authorDisplay, String.class.getClassLoader());
+        _abstract= new ArrayList<>();
+        in.readList(_abstract, String.class.getClassLoader());
+        titleDisplay= in.readString();
+        score= in.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(journal);
+        dest.writeString(eissn);
+        dest.writeString(publicationDate);
+        dest.writeString(articleType);
+        dest.writeList(authorDisplay);
+        dest.writeList(_abstract);
+        dest.writeString(titleDisplay);
+        dest.writeDouble(score);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Doc> CREATOR = new Creator<Doc>() {
+        @Override
+        public Doc createFromParcel(Parcel in) {
+            return new Doc(in);
+        }
+
+        @Override
+        public Doc[] newArray(int size) {
+            return new Doc[size];
+        }
+    };
 
     public String getId() {
         return id;

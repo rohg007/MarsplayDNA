@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         docViewModel.getDocRepository().observe(this, responseData -> {
             List<Doc> docs = responseData.getResponse().getDocs();
             docArrayList.addAll(docs);
+
             if (!docArrayList.isEmpty())
                 constraintLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     //function to set up recycler view with properties
     private void setUpDocRecyclerView() {
-        adapter = new DocAdapter(docArrayList, MainActivity.this, getSupportFragmentManager());
+        adapter = new DocAdapter(docArrayList, MainActivity.this, getSupportFragmentManager(),docViewModel);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         docRv.setLayoutManager(layoutManager);
         docRv.setAdapter(adapter);
