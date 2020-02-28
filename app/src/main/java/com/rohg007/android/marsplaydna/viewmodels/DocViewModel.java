@@ -4,7 +4,6 @@ import com.rohg007.android.marsplaydna.models.ApiResponse;
 import com.rohg007.android.marsplaydna.models.Doc;
 import com.rohg007.android.marsplaydna.network.DocRepository;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

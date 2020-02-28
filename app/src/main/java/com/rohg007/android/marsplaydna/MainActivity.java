@@ -16,10 +16,12 @@ import android.os.Handler;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.rohg007.android.marsplaydna.adapters.DocAdapter;
+import com.rohg007.android.marsplaydna.databinding.ActivityMainBinding;
 import com.rohg007.android.marsplaydna.models.Doc;
 import com.rohg007.android.marsplaydna.viewmodels.DocViewModel;
 
@@ -31,16 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Doc> docArrayList = new ArrayList<>();
     private DocViewModel docViewModel;
     private DocAdapter adapter;
-    private RecyclerView docRv;
     private boolean scroll_down;
-    private ProgressBar progressBar;
     private ConstraintLayout constraintLayout;
     private Button retryButton;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setUpActionBar();
         bindViews();
         docViewModel = ViewModelProviders.of(this).get(DocViewModel.class);
@@ -48,15 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Handling Response
         if (!docArrayList.isEmpty()) {
-            progressBar.setVisibility(View.GONE);
+            activityMainBinding.progressCircular.setVisibility(View.GONE);
             constraintLayout.setVisibility(View.GONE);
         }
-        if(!internetEnabled()){
-            progressBar.setVisibility(View.GONE);
+        if (!internetEnabled()) {
+            activityMainBinding.progressCircular.setVisibility(View.GONE);
+            constraintLayout.setVisibility(View.VISIBLE);
             retryButton.setVisibility(View.VISIBLE);
-            Snackbar.make(progressBar,"NO INTERNET CONNECTION", Snackbar.LENGTH_LONG).show();
+            showSnackBar("NO INTERNET CONNECTION!");
         }
-        if(internetEnabled()) fetchData();
+        if (internetEnabled()) fetchData();
         handleRetryClick();
 
         if (adapter == null)
@@ -65,20 +67,21 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
     }
 
-    private void handleRetryClick(){
+    private void handleRetryClick() {
         retryButton.setOnClickListener(v -> {
-            if(internetEnabled()) {
+            if (internetEnabled()) {
                 docViewModel.recall();
                 fetchData();
+                activityMainBinding.progressCircular.setVisibility(View.VISIBLE);
             } else {
-                Snackbar.make(progressBar,"NO INTERNET CONNECTION", Snackbar.LENGTH_LONG).show();
+                showSnackBar("NO INTERNET CONNECTION");
             }
         });
     }
 
-    private boolean internetEnabled(){
+    private boolean internetEnabled() {
         ConnectivityManager cm =
-                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
@@ -91,14 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
             if (!docArrayList.isEmpty())
                 constraintLayout.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+            activityMainBinding.progressCircular.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
         });
     }
 
     private void bindViews() {
-        docRv = findViewById(R.id.doc_rv);
-        progressBar = findViewById(R.id.progress_circular);
         constraintLayout = findViewById(R.id.empty_view);
         retryButton = findViewById(R.id.retry_button);
     }
@@ -112,18 +113,18 @@ public class MainActivity extends AppCompatActivity {
 
     //function to set up recycler view with properties
     private void setUpDocRecyclerView() {
-        adapter = new DocAdapter(docArrayList, MainActivity.this, getSupportFragmentManager(),docViewModel);
+        adapter = new DocAdapter(docArrayList, MainActivity.this, getSupportFragmentManager(), docViewModel);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        docRv.setLayoutManager(layoutManager);
-        docRv.setAdapter(adapter);
-        docRv.setItemAnimator(new DefaultItemAnimator());
-        //docRv.setNestedScrollingEnabled(true);
+        activityMainBinding.docRv.setLayoutManager(layoutManager);
+        activityMainBinding.docRv.setAdapter(adapter);
+        activityMainBinding.docRv.setItemAnimator(new DefaultItemAnimator());
+        activityMainBinding.docRv.setNestedScrollingEnabled(true);
         handleRecyclerViewScroll();
     }
 
     //Hide & Show Action Bar onScroll
     private void handleRecyclerViewScroll() {
-        docRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        activityMainBinding.docRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (MainActivity.this.getSupportActionBar() != null) {
@@ -155,8 +156,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Snackbar.make(progressBar, "Press BACK again to Exit!", Snackbar.LENGTH_SHORT).show();
+        showSnackBar("Press BACK again to Exit!");
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
+
+    private View getView() {
+        return findViewById(android.R.id.content);
+    }
+
+    private void showSnackBar(String s) {
+        Snackbar.make(getView(), s, Snackbar.LENGTH_SHORT).show();
+    }
 }
-//

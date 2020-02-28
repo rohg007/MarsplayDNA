@@ -27,10 +27,10 @@ public class Doc implements Parcelable {
     private String articleType;
     @SerializedName("author_display")
     @Expose
-    private List<String> authorDisplay = null;
+    private List<String> authorDisplay;
     @SerializedName("abstract")
     @Expose
-    private List<String> _abstract = null;
+    private List<String> _abstract;
     @SerializedName("title_display")
     @Expose
     private String titleDisplay;
