@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,7 +16,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private Button retryButton;
     private ActivityMainBinding activityMainBinding;
+    private ImageView beerMugImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (!docArrayList.isEmpty()) {
             activityMainBinding.progressCircular.setVisibility(View.GONE);
             constraintLayout.setVisibility(View.GONE);
+            beerMugImageView.clearAnimation();
         }
         if (!internetEnabled()) {
             activityMainBinding.progressCircular.setVisibility(View.GONE);
@@ -65,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
             setUpDocRecyclerView();
         else
             adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startBounceAnimation(beerMugImageView);
     }
 
     private void handleRetryClick() {
@@ -92,8 +105,13 @@ public class MainActivity extends AppCompatActivity {
             List<Doc> docs = responseData.getResponse().getDocs();
             docArrayList.addAll(docs);
 
-            if (!docArrayList.isEmpty())
+            if (!docArrayList.isEmpty()) {
                 constraintLayout.setVisibility(View.GONE);
+                beerMugImageView.clearAnimation();
+            }
+            else
+                constraintLayout.setVisibility(View.VISIBLE);
+
             activityMainBinding.progressCircular.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
         });
@@ -102,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
     private void bindViews() {
         constraintLayout = findViewById(R.id.empty_view);
         retryButton = findViewById(R.id.retry_button);
+        beerMugImageView = findViewById(R.id.beer_mug);
     }
 
     private void setUpActionBar() {
@@ -166,5 +185,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSnackBar(String s) {
         Snackbar.make(getView(), s, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void startBounceAnimation(View v){
+        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        v.startAnimation(bounce);
     }
 }

@@ -22,7 +22,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <include layout="@layout/empty_layout"/>
+        <include layout="@layout/empty_layout"
+            android:visibility="gone"/>
 
         <ProgressBar
             android:id="@+id/progress_circular"
